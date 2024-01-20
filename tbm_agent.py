@@ -7,6 +7,41 @@ from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
 
 # Define custom functions to interact with your API
+
+get_estimate_def = {
+  "name": "get_estimate",
+  "description": "calculate an estimate for your resource usage",
+  "parameters": {
+    "type": "object",
+    "properties": {
+            # sample payload: {"usage_data": {"sku001": 8, "sku002": 32}}
+        "usage_data": {
+            {
+                "sku_id": {
+                    "type": "string",
+                    "description": "The city and state e.g. San Francisco, CA"
+                }  
+            }
+        },
+      "location": {
+        "type": "string",
+        "description": "The city and state e.g. San Francisco, CA"
+      },
+      "unit": {
+        "type": "string",
+        "enum": [
+          "c",
+          "f"
+        ]
+      }
+    },
+    "required": [
+      "location"
+    ]
+  }
+}
+
+
 def get_rate_card():
     response = requests.get('http://localhost/rate_card')
     return response.json()

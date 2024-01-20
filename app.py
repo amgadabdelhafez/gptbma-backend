@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 init_db(app)
 
 # CRUD operations for rate_card
-@app.route('/rate_card', methods=['POST', 'GET', 'PUT', 'DELETE'])
+@app.route('/api/rate_card', methods=['POST', 'GET', 'PUT', 'DELETE'])
 def manage_rate_card():
     rate_card_fields = ['sku_id','service_category','service_name','service_offering','offering_unit','pricing_unit','pricing_quantity','unit_price']
     if request.method == 'POST':
@@ -75,7 +75,7 @@ def manage_rate_card():
     return jsonify({"message": "Operation not supported"}), 400
 
 # CRUD operations for billing_data
-@app.route('/billing_data', methods=['POST', 'GET', 'PUT', 'DELETE'])
+@app.route('/api/billing_data', methods=['POST', 'GET', 'PUT', 'DELETE'])
 def manage_billing_data():
     billing_data_fields = ['charge_id', 'sku_id', 'service_offering', 'billing_period_start', 'billing_period_end', 'resource_name', 'resource_type', 'usage_unit', 'usage_quantity']
     if request.method == 'POST':
@@ -130,8 +130,8 @@ def manage_billing_data():
     return jsonify({"message": "Operation not supported"}), 400
 
 
-# Calculate effective estimate
-@app.route('/calculate_estimate', methods=['POST'])
+# Calculate resource estimate
+@app.route('/api/calculate_estimate', methods=['POST'])
 def calculate_estimate():
     # sample payload: {"usage_data": {"sku001": 8, "sku002": 32}}
     data = request.json
@@ -145,7 +145,7 @@ def calculate_estimate():
     return jsonify({"estimates": estimates}), 200
 
 # Get cost estimate of a resource
-@app.route('/get_resource_estimate', methods=['GET'])
+@app.route('/api/get_resource_estimate', methods=['GET'])
 def resource_estimate():
     # sample payload {"resource_name": "app_1_vm_1"}
     resource_name = request.args.get('resource_name')
@@ -156,7 +156,7 @@ def resource_estimate():
     return jsonify({"message": "resource name not provided"}), 400
 
 # Get all resources and their estimates
-@app.route('/all_resource_estimates', methods=['GET'])
+@app.route('/api/all_resource_estimates', methods=['GET'])
 def all_resource_estimates():
     # sample payload {"resource_name": "app_1_vm_1"}
     # sample response: {"resource_estimates": {"app_1_vm_1": 100, "app_1_vm_1": 200}}
